@@ -165,7 +165,7 @@ class CompanyVAT extends AbstractRule {
      * @param string $countryCode
      * @param string $varNumber
      */
-    public function __construct($countryCode, $invalidMessage, $negate = false) {
+    public function __construct($countryCode, $invalidMessage = '', $negate = false) {
         $this->countryCode = $countryCode;
         $this->wsdl = "http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl";
         if(!class_exists('SoapClient')) {

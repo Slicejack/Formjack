@@ -22,7 +22,7 @@ class Length extends AbstractRule {
     private $inclusive;
 
 
-    public function __construct($min = null, $max = null, $inclusive = true, $invalidMessage, $negate = false) {
+    public function __construct($min = null, $max = null, $inclusive = true, $invalidMessage = '', $negate = false) {
         $this->min = $min;
         $this->max = $max;
         $this->inclusive = (bool)$inclusive;
