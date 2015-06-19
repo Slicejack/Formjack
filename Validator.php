@@ -24,6 +24,12 @@ class Validator {
         return $result;
     }
 
+    /**
+     * @param  AbstractField $field
+     * @param  array         $rules
+     * @param  array         &$errors
+     * @return void
+     */
     private static function loop(AbstractField $field, array $rules, array &$errors) {
         foreach ($rules as $rule) {
             if ($rule instanceof AbstractRule && $rule->run($field)) {
