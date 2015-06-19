@@ -9,4 +9,4 @@ Meanwhile feel free to read:
 
 ## License
 
-All contents of this package are licensed under the [MIT license].
+All contents of this package are licensed under the [MIT license](https://github.com/Slicejack/Formjack/blob/master/LICENSE).
