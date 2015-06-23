@@ -12,6 +12,7 @@ class TextField extends AbstractField {
     }
 
     /**
+     * @param  string $value
      * @return $this
      */
     public function bind($value) {

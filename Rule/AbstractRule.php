@@ -17,7 +17,7 @@ abstract class AbstractRule {
     protected $negate;
 
     /**
-     * @var array Array of subrules
+     * @var array Array of rules
      */
     protected $children = null;
 
@@ -59,8 +59,8 @@ abstract class AbstractRule {
      * @param  AbstractField $field
      * @return bool
      */
-    public function validate(AbstractField $f) {
-        return ($this->negate)? !$this->isValid($f) : $this->isValid($f);
+    public function validate(AbstractField $field) {
+        return ($this->negate)? !$this->isValid($field) : $this->isValid($field);
     }
 
     /**

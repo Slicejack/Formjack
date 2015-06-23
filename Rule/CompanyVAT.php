@@ -157,19 +157,21 @@ class CompanyVAT extends AbstractRule {
     private $countryCode;
 
     /**
-     * @var SoapClient Soap client instance
+     * @var \SoapClient Soap client instance
      */
     private $client;
 
     /**
-     * @param string $countryCode
-     * @param string $varNumber
+     * @param  string $countryCode
+     * @param  string $invalidMessage
+     * @param  bool   $negate
+     * @throws \Exception
      */
     public function __construct($countryCode, $invalidMessage = '', $negate = false) {
         $this->countryCode = $countryCode;
         $this->wsdl = "http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl";
         if(!class_exists('SoapClient')) {
-            throw new Exception('Soap library not found. Please install and enable the library.');
+            throw new \Exception('Soap library not found. Please install and enable the library.');
         } else {
             try {
                 $this->client = new \SoapClient($this->wsdl, array(

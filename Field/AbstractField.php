@@ -4,7 +4,6 @@ namespace Formjack\Field;
 
 use Formjack\Form;
 use Formjack\Rule\AbstractRule;
-use Formjack\Helper\ValidationCondition;
 
 abstract class AbstractField {
 
@@ -89,8 +88,9 @@ abstract class AbstractField {
     }
 
     /**
-     * @param string $name
-     * @param mixed  $value
+     * @param  string $name
+     * @param  mixed  $value
+     * @return $this
      */
     public function addOption($name, $value) {
         $this->options[$name] = $value;
@@ -117,7 +117,7 @@ abstract class AbstractField {
     }
 
     /**
-     * @param  AbstractRule|ValidationCondition $rule
+     * @param  AbstractRule $rule
      * @return $this
      */
     public function addRule(AbstractRule $rule) {
@@ -161,6 +161,7 @@ abstract class AbstractField {
     }
 
     /**
+     * @param  array $disallowed
      * @return string
      */
     public function getAttributes(array $disallowed = array()) {

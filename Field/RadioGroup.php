@@ -18,7 +18,8 @@ class RadioGroup extends AbstractField {
     }
 
     /**
-     * @param string|array $value
+     * @param  string|array $value
+     * @return $this
      */
     public function bind($value) {
         if ($this->exists($value)) {
