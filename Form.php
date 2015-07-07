@@ -107,7 +107,7 @@ class Form {
             if (isset($request[$field->getName()])) {
                 $field->bind($request[$field->getName()]);
             } else {
-                $field->bind('');
+                $field->bind(null);
             }
         }
 
