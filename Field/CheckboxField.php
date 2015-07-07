@@ -7,7 +7,7 @@ class CheckboxField extends AbstractField {
     /**
      * @var string Switch value that makes checkbox true or false
      */
-    private $switch;
+    protected $switch;
 
     /**
      * {@inheritdoc}

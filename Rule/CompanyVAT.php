@@ -149,17 +149,17 @@ class CompanyVAT extends AbstractRule {
     /**
      * @var string WSDL URL
      */
-    private $wsdl;
+    protected $wsdl;
 
     /**
      * @var string Country code
      */
-    private $countryCode;
+    protected $countryCode;
 
     /**
      * @var \SoapClient Soap client instance
      */
-    private $client;
+    protected $client;
 
     /**
      * @param  string $countryCode

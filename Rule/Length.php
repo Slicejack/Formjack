@@ -9,17 +9,17 @@ class Length extends AbstractRule {
     /**
      * @var int Min length
      */
-    private $min;
+    protected $min;
 
     /**
      * @var int Max length
      */
-    private $max;
+    protected $max;
 
     /**
      * @var bool Min and max are included
      */
-    private $inclusive;
+    protected $inclusive;
 
 
     public function __construct($min = null, $max = null, $inclusive = true, $invalidMessage = '', $negate = false) {

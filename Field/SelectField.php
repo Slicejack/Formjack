@@ -7,12 +7,17 @@ class SelectField extends AbstractField {
     /**
      * @var array Array of choices
      */
-    private $choices;
+    protected $choices;
 
     /**
      * @var bool Enable or disable multiselect option
      */
-    private $multiselect;
+    protected $multiselect;
+
+    /**
+     * @var string
+     */
+    protected $emptyValue;
 
     /**
      * {@inheritdoc}
@@ -29,6 +34,7 @@ class SelectField extends AbstractField {
      * @return void
      */
     public function init() {
+        $this->emptyValue = $this->getOption('empty_value', null);
         $this->choices = $this->getOption('choices', array());
         $this->multiselect = (bool)$this->getOption('multiselect', false);
         $this->setValue($this->getOption('value', array()));
@@ -61,6 +67,9 @@ class SelectField extends AbstractField {
         $multiple = ($this->multiselect)? 'multiple' : '';
         $name = ($this->multiselect)? $this->getName() . '[]' : $this->getName();
         echo "<select name=\"{$name}\" {$this->getAttributes()} {$multiple}>";
+        if ($this->emptyValue) {
+            echo "<option value=\"\">{$this->emptyValue}</option>";
+        }
         foreach ($this->choices as $val => $choice) {
             $selected = ($this->selected($val))? 'selected' : '';
             echo "<option value=\"{$val}\" {$selected}>{$choice}</option>";

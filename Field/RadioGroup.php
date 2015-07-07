@@ -7,7 +7,7 @@ class RadioGroup extends AbstractField {
     /**
      * @var array Array of choices
      */
-    private $choices;
+    protected $choices;
 
     /**
      * @return void

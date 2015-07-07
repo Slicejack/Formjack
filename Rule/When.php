@@ -9,8 +9,12 @@ class When extends AbstractRule {
     /**
      * @var callable Condition function
      */
-    private $condition;
+    protected $condition;
 
+    /**
+     * @param callable $condition
+     * @param array    $children
+     */
     public function __construct(callable $condition, array $children = array()) {
         $this->condition = $condition;
         $this->children = $children;
