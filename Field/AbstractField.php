@@ -23,7 +23,7 @@ abstract class AbstractField {
     protected $rules;
 
     /**
-     * @var string Form field value
+     * @var mixed Form field value
      */
     protected $value;
 
