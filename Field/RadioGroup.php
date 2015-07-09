@@ -25,7 +25,6 @@ class RadioGroup extends AbstractField {
         if ($this->exists($value)) {
             return $this->setValue($value);
         }
-
         return $this->setValue(null);
     }
 
