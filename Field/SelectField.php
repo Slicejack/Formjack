@@ -23,40 +23,54 @@ class SelectField extends AbstractField {
      * {@inheritdoc}
      */
     public function setValue($value) {
-        if ($this->multiselect && !is_array($value)) {
-            return parent::setValue(array($value));
-        } else {
+        if ($this->multiselect) {
+            $value = (is_array($value))? $value : array($value);
             return parent::setValue($value);
         }
+        return parent::setValue($value);
     }
 
     /**
      * @return void
      */
     public function init() {
-        $this->emptyValue = $this->getOption('empty_value', null);
         $this->choices = $this->getOption('choices', array());
         $this->multiselect = (bool)$this->getOption('multiselect', false);
-        $this->setValue($this->getOption('value', array()));
+        if ($this->multiselect) {
+            $this->emptyValue = null;
+            $this->setValue($this->getOption('value', array()));
+        } else {
+            $this->emptyValue = $this->getOption('empty_value', null);
+            if ($this->emptyValue) {
+                $this->setValue($this->getOption('value', ''));
+            } else {
+                $this->setValue($this->getOption('value', null));
+            }
+        }
     }
 
     /**
-     * @param  string|array $value
+     * @param  string|array|null $value
      * @return $this
      */
     public function bind($value) {
-        if ($this->multiselect && is_array($value) && !empty($value)) {
-            foreach ($value as $single) {
-                if (!$this->exists($single)) {
-                    return $this;
+        if ($this->multiselect) {
+            if ($value) {
+                $valid = array();
+                $value = (is_array($value))? $value : array($value);
+                foreach ($value as $single) {
+                    if ($this->exists($single)) {
+                        $valid[] = $single;
+                    }
                 }
-                return $this->setValue($value);
+                return $this->setValue($valid);
             }
+            return $this->setValue(array());
         } else {
             if (!is_array($value) && $this->exists($value)) {
                 return $this->setValue($value);
             }
-            return $this;
+            return $this->setValue(null);
         }
     }
 
@@ -84,9 +98,8 @@ class SelectField extends AbstractField {
     private function selected($choice) {
         if (is_array($this->getValue())) {
             return in_array($choice, $this->getValue());
-        } else {
-            return ($choice == $this->getValue());
         }
+        return ($choice == $this->getValue());
     }
 
     /**
@@ -94,6 +107,9 @@ class SelectField extends AbstractField {
      * @return bool
      */
     private function exists($choice) {
+        if ($choice == '' && $this->emptyValue !== null) {
+            return true;
+        }
         return array_key_exists($choice, $this->choices);
     }
 
