@@ -8,7 +8,7 @@ class TextField extends AbstractField {
      * @return $this
      */
     public function init() {
-        return $this->setValue($this->getOption('value', null));
+        return $this->setValue($this->getOption('value', ''));
     }
 
     /**
