@@ -161,17 +161,21 @@ abstract class AbstractField {
     }
 
     /**
-     * @param  array $disallowed
+     * @param  array $merge
      * @return string
      */
-    public function getAttributes(array $disallowed = array()) {
+    public function getAttributes(array $merge = array()) {
         $result = "";
         $attributes = $this->getOption('attributes', array());
+        if (!empty($merge)) {
+            $attributes = array_merge_recursive($attributes, $merge);
+        }
         if (!empty($attributes)) {
             foreach ($attributes as $name => $value) {
-                if (!in_array($name, $disallowed)) {
-                    $result .= " {$name}=\"{$value}\"";
+                if (is_array($value)) {
+                    $value = implode(' ', $value);
                 }
+                $result .= " {$name}=\"{$value}\"";
             }
         }
 
