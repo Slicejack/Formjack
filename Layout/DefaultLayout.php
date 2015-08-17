@@ -31,6 +31,13 @@ class DefaultLayout extends AbstractLayout {
             }
             $html .= $field->render();
         }
+        if ($field->hasErrors()) {
+            $html .= "<ul class=\"errors\">";
+            foreach ($field->getErrors() as $error) {
+                $html .= "<li>{$error}</li>";
+            }
+            $html .= "</ul>";
+        }
         $html .= "</div>";
 
         return $html;

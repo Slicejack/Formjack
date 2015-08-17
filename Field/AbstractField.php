@@ -175,6 +175,25 @@ abstract class AbstractField {
     }
 
     /**
+     * @return bool
+     */
+    public function hasErrors() {
+        if ($this->parent->hasErrors()) {
+            return array_key_exists($this->name, $this->parent->getErrors());
+        }
+
+        return false;
+    }
+
+    /**
+     * @return array
+     */
+    public function getErrors() {
+        $errors = $this->parent->getErrors();
+        return isset($errors[$this->name])? $errors[$this->name] : array();
+    }
+
+    /**
      * @param  array $merge
      * @return string
      */

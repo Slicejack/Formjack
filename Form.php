@@ -95,6 +95,13 @@ class Form {
     }
 
     /**
+     * @return bool
+     */
+    public function hasErrors() {
+        return !empty($this->errors);
+    }
+
+    /**
      * @return array
      */
     public function getErrors() {
