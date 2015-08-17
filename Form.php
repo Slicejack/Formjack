@@ -88,6 +88,15 @@ class Form {
     /**
      * @return void
      */
+    public function render() {
+        foreach ($this->fields as $field) {
+            echo $this->layout->renderField($field);
+        }
+    }
+
+    /**
+     * @return void
+     */
     public function renderField($name) {
         if (isset($this->fields[$name])) {
             echo $this->layout->renderField($this->fields[$name]);
