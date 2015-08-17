@@ -130,7 +130,7 @@ class Form {
     }
 
     /**
-     * @param  array $request $_GET, $_POST etc.
+     * @param  array $request
      * @return $this
      */
     public function bind(array $request = array()) {
