@@ -9,14 +9,7 @@ class ProvinceSelectField extends SelectField {
      */
     public function init() {
         parent::init();
-        $this->choices = $this->getProvincesArray();
-    }
-
-    /**
-     * @return array
-     */
-    private function getProvincesArray() {
-        return array(
+        $this->choices = array(
             'BC' => 'British Columbia', 
             'ON' => 'Ontario', 
             'NL' => 'Newfoundland and Labrador', 

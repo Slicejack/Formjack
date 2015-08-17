@@ -9,14 +9,7 @@ class CountrySelectField extends SelectField {
      */
     public function init() {
         parent::init();
-        $this->choices = $this->getCountriesArray();
-    }
-
-    /**
-     * @return array
-     */
-    private function getCountriesArray() {
-        return array(
+        $this->choices = array(
             'AF' => 'Afghanistan',
             'AX' => 'Aland Islands',
             'AL' => 'Albania',

@@ -3,11 +3,18 @@
 namespace Formjack;
 
 use Formjack\Field\AbstractField;
+use Formjack\Layout\AbstractLayout;
+use Formjack\Layout\DefaultLayout;
 
 class Form {
 
     /**
-     * @var array Array of form fields
+     * @var AbstractLayout Layout instance
+     */
+    private $layout;
+
+    /**
+     * @var AbstractField[] Array of form fields
      */
     private $fields;
 
@@ -25,6 +32,16 @@ class Form {
                 $this->addField($field);
             }
         }
+    }
+
+    /**
+     * @param  AbstractLayout|null $layout
+     * @return $this
+     */
+    public function setLayout(AbstractLayout $layout = null) {
+        $this->layout = ($layout !== null)? $layout : new DefaultLayout();
+
+        return $this;
     }
 
     /**
@@ -73,9 +90,7 @@ class Form {
      */
     public function renderField($name) {
         if (isset($this->fields[$name])) {
-            $field = $this->fields[$name]->render();
-        } else {
-            echo "Field with name <strong>'{$name}'</strong> does not exist.";
+            echo $this->layout->renderField($this->fields[$name]);
         }
     }
 

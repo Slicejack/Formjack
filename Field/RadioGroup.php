@@ -2,59 +2,38 @@
 
 namespace Formjack\Field;
 
-class RadioGroup extends AbstractField {
-
-    /**
-     * @var array Array of choices
-     */
-    protected $choices;
+class RadioGroup extends AbstractGroup {
 
     /**
      * @return void
      */
     public function init() {
-        $this->choices = $this->getOption('choices', array());
+        parent::init();
         $this->value = $this->getOption('value', null);
     }
 
     /**
-     * @param  string|array $value
+     * @param  string|null $choice
      * @return $this
      */
-    public function bind($value) {
-        if ($this->exists($value)) {
-            return $this->setValue($value);
-        }
-        return $this->setValue(null);
+    public function bind($choice) {
+        return ($this->isValidChoice($choice))? $this->setValue($choice) : $this->setValue(null) ;
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
+     * @return string
      */
-    public function render() {
-        foreach ($this->choices as $value => $label) {
-            $checked = ($this->checked($value))? 'checked' : '' ;
-            echo "<div>";
-            echo "<input type=\"radio\" id=\"option-{$value}\" name=\"{$this->getName()}\" value=\"{$value}\" {$this->getAttributes()} {$checked}/>";
-            echo "<label for=\"option-{$value}\">{$label}</label>";
-            echo "</div>";
-        }
+    public function renderChoice($choice, array $attributes = array()) {
+        return "<input type=\"radio\" name=\"{$this->getName()}\" value=\"{$choice}\" {$this->getAttributes($attributes)} {$this->checked($choice)}/>";
     }
 
     /**
      * @param  string $choice
-     * @return bool
-     */
-    private function exists($choice) {
-        return array_key_exists($choice, $this->choices);
-    }
-
-    /**
-     * @param  string $choice
-     * @return bool
+     * @return string
      */
     private function checked($choice) {
-        return ($choice == $this->getValue());
+        return ($choice == $this->getValue())? 'checked' : '' ;
     }
 
 }

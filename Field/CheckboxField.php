@@ -5,11 +5,6 @@ namespace Formjack\Field;
 class CheckboxField extends AbstractField {
 
     /**
-     * @var string Switch value that makes checkbox true or false
-     */
-    protected $switch;
-
-    /**
      * {@inheritdoc}
      */
     public function setValue($value) {
@@ -20,23 +15,30 @@ class CheckboxField extends AbstractField {
      * @return void
      */
     public function init() {
-        $this->switch = $this->getOption('switch', 1);
         $this->setValue((bool)$this->getOption('value', false));
     }
 
     /**
+     * @param  string|null $value
      * @return $this
      */
     public function bind($value) {
-        return $this->setValue($value == $this->switch);
+        return $this->setValue($value == 1);
     }
 
     /**
-     * @return void
+     * @param  array $attributes
+     * @return string
      */
-    public function render() {
-        $checked = $this->getValue()? 'checked' : '' ;
-        echo "<input type=\"checkbox\" name=\"{$this->getName()}\" value=\"{$this->switch}\" {$this->getAttributes()} {$checked} />";
+    public function render(array $attributes = array()) {
+        return "<input type=\"checkbox\" name=\"{$this->getName()}\" value=\"1\" {$this->getAttributes($attributes)} {$this->checked()} />";
+    }
+
+    /**
+     * @return string
+     */
+    private function checked() {
+        return $this->getValue()? 'checked' : '' ;
     }
 
 }

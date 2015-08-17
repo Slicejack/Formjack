@@ -75,20 +75,24 @@ class SelectField extends AbstractField {
     }
 
     /**
-     * @return void
+     * @param  array $attributes
+     * @return string
      */
-    public function render() {
+    public function render(array $attributes = array()) {
+        $html = "";
         $multiple = ($this->multiselect)? 'multiple' : '';
         $name = ($this->multiselect)? $this->getName() . '[]' : $this->getName();
-        echo "<select name=\"{$name}\" {$this->getAttributes()} {$multiple}>";
+        $html .= "<select name=\"{$name}\" {$this->getAttributes($attributes)} {$multiple}>";
         if ($this->emptyValue) {
-            echo "<option value=\"\">{$this->emptyValue}</option>";
+            $html .= "<option value=\"\">{$this->emptyValue}</option>";
         }
-        foreach ($this->choices as $val => $choice) {
-            $selected = ($this->selected($val))? 'selected' : '';
-            echo "<option value=\"{$val}\" {$selected}>{$choice}</option>";
+        foreach ($this->choices as $value => $text) {
+            $selected = ($this->selected($value))? 'selected' : '';
+            $html .= "<option value=\"{$value}\" {$selected}>{$text}</option>";
         }
-        echo "</select>";
+        $html .= "</select>";
+
+        return $html;
     }
 
     /**

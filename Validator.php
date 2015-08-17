@@ -4,7 +4,6 @@ namespace Formjack;
 
 use Formjack\Field\AbstractField;
 use Formjack\Rule\AbstractRule;
-use Formjack\Helper\ValidationCondition;
 
 class Validator {
 
@@ -25,9 +24,9 @@ class Validator {
     }
 
     /**
-     * @param  AbstractField $field
-     * @param  array         $rules
-     * @param  array         &$errors
+     * @param  AbstractField  $field
+     * @param  AbstractRule[] $rules
+     * @param  array          &$errors
      * @return void
      */
     private static function loop(AbstractField $field, array $rules, array &$errors) {

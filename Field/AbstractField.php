@@ -8,22 +8,22 @@ use Formjack\Rule\AbstractRule;
 abstract class AbstractField {
 
     /**
-     * @var string Form field name
+     * @var string Field name
      */
     protected $name;
 
     /**
-     * @var array Field options
+     * @var array Array of field options
      */
     protected $options;
 
     /**
-     * @var array Array of validation rules
+     * @var AbstractRule[] Array of validation rules
      */
     protected $rules;
 
     /**
-     * @var mixed Form field value
+     * @var mixed Field value
      */
     protected $value;
 
@@ -33,9 +33,9 @@ abstract class AbstractField {
     protected $parent;
 
     /**
-     * @param string $name
-     * @param array  $options
-     * @param array  $rules
+     * @param  string          $name
+     * @param  array           $options
+     * @param  AbstractRule[]  $rules
      */
     public function __construct($name, array $options = array(), array $rules = array()) {
         $this->setName($name);
@@ -63,11 +63,11 @@ abstract class AbstractField {
 
     /**
      * @param  string $name
-     * @param  mixed  $fallback
+     * @param  mixed  $default
      * @return mixed
      */
-    public function getOption($name, $fallback = null) {
-        return (isset($this->options[$name]))? $this->options[$name] : $fallback ;
+    public function getOption($name, $default = null) {
+        return (isset($this->options[$name]))? $this->options[$name] : $default ;
     }
 
     /**
@@ -99,14 +99,14 @@ abstract class AbstractField {
     }
 
     /**
-     * @return array
+     * @return AbstractRule[]
      */
     public function getRules() {
         return $this->rules;
     }
 
     /**
-     * @param  array $rules
+     * @param  AbstractRule[] $rules
      * @return $this
      */
     public function setRules(array $rules) {
@@ -161,6 +161,20 @@ abstract class AbstractField {
     }
 
     /**
+     * @return bool
+     */
+    public function hasLabel() {
+        return ($this->getOption('label', null))? true : false ;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLabel() {
+        return $this->getOption('label', '');
+    }
+
+    /**
      * @param  array $merge
      * @return string
      */
@@ -186,6 +200,6 @@ abstract class AbstractField {
 
     abstract public function bind($value);
 
-    abstract public function render();
+    abstract public function render(array $attributes = array());
 
 }

@@ -9,14 +9,7 @@ class StateSelectField extends SelectField {
      */
     public function init() {
         parent::init();
-        $this->choices = $this->getStatesArray();
-    }
-
-    /**
-     * @return array
-     */
-    private function getStatesArray() {
-        return array(
+        $this->choices = array(
             'AK' => 'Alaska',
             'AL' => 'Alabama',
             'AR' => 'Arkansas',
