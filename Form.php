@@ -72,7 +72,7 @@ class Form {
      */
     public function addField(AbstractField $field) {
         $field->setParent($this);
-        $this->fields[$field->getName()] = $field;
+        $this->fields[$field->getId()] = $field;
 
         return $this;
     }
@@ -112,8 +112,8 @@ class Form {
      */
     public function bind(array $data = array()) {
         foreach ($this->fields as $field) {
-            if (isset($data[$field->getName()])) {
-                $field->bind($data[$field->getName()]);
+            if (isset($data[$field->getId()])) {
+                $field->bind($data[$field->getId()]);
             } else {
                 $field->bind(null);
             }
@@ -129,7 +129,7 @@ class Form {
         foreach ($this->fields as $field) {
             $result = Validator::validateField($field);
             if (!$result->valid) {
-                $this->errors[$field->getName()] = $result->trace;
+                $this->errors[$field->getId()] = $result->trace;
             }
         }
 
@@ -156,7 +156,7 @@ class Form {
     public function getData() {
         $result = array();
         foreach ($this->fields as $field) {
-            $result[$field->getName()] = $field->getValue();
+            $result[$field->getId()] = $field->getValue();
         }
 
         return $result;

@@ -40,6 +40,13 @@ abstract class AbstractField {
     }
 
     /**
+     * @return string
+     */
+    public function getId() {
+        return $this->name;
+    }
+
+    /**
      * @param  string $name
      * @return $this
      */
@@ -53,7 +60,7 @@ abstract class AbstractField {
      * @return string
      */
     public function getName() {
-        return $this->name;
+        return "{$this->parent->getName()}[{$this->name}]";
     }
 
     /**
