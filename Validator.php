@@ -14,9 +14,10 @@ class Validator {
     public static function validateField(AbstractField $field) {
         $errors = array();
         $result = new \stdClass();
-        $rules = $field->getRules();
-        self::loop($field, $rules, $errors);
-
+        if ($field->hasRules()) {
+            self::loop($field, $field->getRules(), $errors);
+        }
+        
         $result->valid = empty($errors);
         $result->trace = $errors;
 
@@ -31,7 +32,7 @@ class Validator {
      */
     private static function loop(AbstractField $field, array $rules, array &$errors) {
         foreach ($rules as $rule) {
-            if ($rule instanceof AbstractRule && $rule->run($field)) {
+            if ($rule->run($field)) {
                 $result = $rule->validate($field);
                 if (is_bool($result) && $result === false) {
                     $errors[] = $rule->getInvalidMessage();

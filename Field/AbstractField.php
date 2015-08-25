@@ -18,11 +18,6 @@ abstract class AbstractField {
     protected $options;
 
     /**
-     * @var AbstractRule[] Array of validation rules
-     */
-    protected $rules;
-
-    /**
      * @var mixed Field value
      */
     protected $value;
@@ -35,13 +30,11 @@ abstract class AbstractField {
     /**
      * @param  string          $name
      * @param  array           $options
-     * @param  AbstractRule[]  $rules
      */
-    public function __construct($name, array $options = array(), array $rules = array()) {
+    public function __construct($name, array $options = array()) {
         $this
             ->setName($name)
             ->setOptions($options)
-            ->setRules($rules)
             ->init()
         ;
     }
@@ -101,36 +94,6 @@ abstract class AbstractField {
     }
 
     /**
-     * @param  AbstractRule[] $rules
-     * @return $this
-     */
-    public function setRules(array $rules) {
-        $this->rules = array();
-        foreach ($rules as $rule) {
-            $this->addRule($rule);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param  AbstractRule $rule
-     * @return $this
-     */
-    public function addRule(AbstractRule $rule) {
-        $this->rules[] = $rule;
-
-        return $this;
-    }
-
-    /**
-     * @return AbstractRule[]
-     */
-    public function getRules() {
-        return $this->rules;
-    }
-
-    /**
      * @param  mixed $value
      * @return $this
      */
@@ -176,6 +139,20 @@ abstract class AbstractField {
      */
     public function getLabel() {
         return $this->getOption('label', '');
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasRules() {
+        return ($this->getOption('rules', null))? true : false ;
+    }
+
+    /**
+     * @return AbstractRule[]
+     */
+    public function getRules() {
+        return $this->getOption('rules', array());
     }
 
     /**
