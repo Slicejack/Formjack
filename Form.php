@@ -121,7 +121,7 @@ class Form {
     /**
      * @return array
      */
-    public function getFieldValues() {
+    public function getData() {
         $result = array();
         foreach ($this->fields as $field) {
             $result[$field->getName()] = $field->getValue();

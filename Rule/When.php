@@ -25,7 +25,7 @@ class When extends AbstractRule {
      */
     public function run(AbstractField $field) {
         return call_user_func_array($this->condition, array(
-            $field->getParent()->getFieldValues()
+            $field->getParent()->getData()
         ));
     }
 
