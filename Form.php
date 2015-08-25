@@ -89,8 +89,8 @@ class Form {
      * @return void
      */
     public function render() {
-        foreach ($this->fields as $field) {
-            echo $this->layout->renderField($field);
+        foreach ($this->fields as $name => $instance) {
+            $this->renderField($name);
         }
     }
 
@@ -98,8 +98,9 @@ class Form {
      * @return void
      */
     public function renderField($name) {
+        $layout = ($this->layout == null)? new DefaultLayout() : $this->layout ;
         if (isset($this->fields[$name])) {
-            echo $this->layout->renderField($this->fields[$name]);
+            echo $layout->renderField($this->fields[$name]);
         }
     }
 
