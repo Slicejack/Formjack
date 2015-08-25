@@ -38,17 +38,12 @@ abstract class AbstractField {
      * @param  AbstractRule[]  $rules
      */
     public function __construct($name, array $options = array(), array $rules = array()) {
-        $this->setName($name);
-        $this->setOptions($options);
-        $this->setRules($rules);
-        $this->init();
-    }
-
-    /**
-     * @return string
-     */
-    public function getName() {
-        return $this->name;
+        $this
+            ->setName($name)
+            ->setOptions($options)
+            ->setRules($rules)
+            ->init()
+        ;
     }
 
     /**
@@ -56,25 +51,16 @@ abstract class AbstractField {
      * @return $this
      */
     public function setName($name) {
-        $this->name = $name;
+        $this->name = str_replace(' ', '_', $name);
 
         return $this;
     }
 
     /**
-     * @param  string $name
-     * @param  mixed  $default
-     * @return mixed
+     * @return string
      */
-    public function getOption($name, $default = null) {
-        return (isset($this->options[$name]))? $this->options[$name] : $default ;
-    }
-
-    /**
-     * @return array
-     */
-    public function getOptions() {
-        return $this->options;
+    public function getName() {
+        return $this->name;
     }
 
     /**
@@ -99,10 +85,19 @@ abstract class AbstractField {
     }
 
     /**
-     * @return AbstractRule[]
+     * @param  string $name
+     * @param  mixed  $default
+     * @return mixed
      */
-    public function getRules() {
-        return $this->rules;
+    public function getOption($name, $default = null) {
+        return (isset($this->options[$name]))? $this->options[$name] : $default ;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOptions() {
+        return $this->options;
     }
 
     /**
@@ -114,6 +109,8 @@ abstract class AbstractField {
         foreach ($rules as $rule) {
             $this->addRule($rule);
         }
+
+        return $this;
     }
 
     /**
@@ -127,10 +124,10 @@ abstract class AbstractField {
     }
 
     /**
-     * @return mixed
+     * @return AbstractRule[]
      */
-    public function getValue() {
-        return $this->value;
+    public function getRules() {
+        return $this->rules;
     }
 
     /**
@@ -144,10 +141,10 @@ abstract class AbstractField {
     }
 
     /**
-     * @return Form
+     * @return mixed
      */
-    public function getParent() {
-        return $this->parent;
+    public function getValue() {
+        return $this->value;
     }
 
     /**
@@ -158,6 +155,13 @@ abstract class AbstractField {
         $this->parent = $parent;
 
         return $this;
+    }
+
+    /**
+     * @return Form
+     */
+    public function getParent() {
+        return $this->parent;
     }
 
     /**
