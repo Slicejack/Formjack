@@ -9,14 +9,19 @@ use Formjack\Layout\DefaultLayout;
 class Form {
 
     /**
-     * @var AbstractLayout Layout instance
+     * @var string Form name
      */
-    private $layout;
+    private $name;
 
     /**
      * @var AbstractField[] Array of form fields
      */
     private $fields;
+
+    /**
+     * @var AbstractLayout Layout instance
+     */
+    private $layout;
 
     /**
      * @var array Array of validation errors
@@ -26,29 +31,28 @@ class Form {
     /**
      * @param array Array of form fields
      */
-    public function __construct(array $fields = array()) {
-        foreach ($fields as $field) {
-            if ($field instanceof AbstractField) {
-                $this->addField($field);
-            }
-        }
+    public function __construct($name, array $fields = array()) {
+        $this
+            ->setName($name)
+            ->setFields($fields)
+            ->setLayout(new DefaultLayout())
+        ;
     }
 
     /**
-     * @param  AbstractLayout|null $layout
-     * @return $this
+     * @param string $name
      */
-    public function setLayout(AbstractLayout $layout = null) {
-        $this->layout = ($layout !== null)? $layout : new DefaultLayout();
+    public function setName($name) {
+        $this->name = str_replace(' ', '_', $name);
 
         return $this;
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getFields() {
-        return $this->fields;
+    public function getName() {
+        return $this->name;
     }
 
     /**
@@ -56,10 +60,10 @@ class Form {
      */
     public function setFields(array $fields) {
         foreach ($fields as $field) {
-            if ($field instanceof AbstractField) {
-                $this->addField($field);
-            }
+            $this->addField($field);
         }
+
+        return $this;
     }
 
     /**
@@ -86,22 +90,50 @@ class Form {
     }
 
     /**
-     * @return void
+     * @return array
      */
-    public function render() {
-        foreach ($this->fields as $name => $instance) {
-            $this->renderField($name);
-        }
+    public function getFields() {
+        return $this->fields;
     }
 
     /**
-     * @return void
+     * @param  AbstractLayout $layout
+     * @return $this
      */
-    public function renderField($name) {
-        $layout = ($this->layout == null)? new DefaultLayout() : $this->layout ;
-        if (isset($this->fields[$name])) {
-            echo $layout->renderField($this->fields[$name]);
+    public function setLayout(AbstractLayout $layout) {
+        $this->layout = $layout;
+
+        return $this;
+    }
+
+    /**
+     * @param  array $data
+     * @return $this
+     */
+    public function bind(array $data = array()) {
+        foreach ($this->fields as $field) {
+            if (isset($data[$field->getName()])) {
+                $field->bind($data[$field->getName()]);
+            } else {
+                $field->bind(null);
+            }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValid() {
+        foreach ($this->fields as $field) {
+            $result = Validator::validateField($field);
+            if (!$result->valid) {
+                $this->errors[$field->getName()] = $result->trace;
+            }
+        }
+
+        return empty($this->errors);
     }
 
     /**
@@ -131,33 +163,21 @@ class Form {
     }
 
     /**
-     * @param  array $request
-     * @return $this
+     * @return void
      */
-    public function bind(array $request = array()) {
-        foreach ($this->fields as $field) {
-            if (isset($request[$field->getName()])) {
-                $field->bind($request[$field->getName()]);
-            } else {
-                $field->bind(null);
-            }
+    public function render() {
+        foreach ($this->fields as $name => $instance) {
+            $this->renderField($name);
         }
-
-        return $this;
     }
 
     /**
-     * @return bool
+     * @return void
      */
-    public function isValid() {
-        foreach ($this->fields as $field) {
-            $result = Validator::validateField($field);
-            if (!$result->valid) {
-                $this->errors[$field->getName()] = $result->trace;
-            }
+    public function renderField($name) {
+        if (isset($this->fields[$name])) {
+            echo $this->layout->renderField($this->fields[$name]);
         }
-
-        return empty($this->errors);
     }
 
 }
